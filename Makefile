@@ -4,6 +4,8 @@ OPT=-O0
 PROF=-pg
 PATHbin=./bin/
 PATHrec=./src/
+PATHout=./out/
+PATHlog=./log/
 
 lab3: $(PATHbin)lab3
 
@@ -14,7 +16,7 @@ $(PATHbin)lab3_base: $(PATHrec)lab3_base.c
 
 $(PATHbin)lab3: $(PATHrec)lab3.c 
 	mkdir -p $(PATHbin) log
-	$(CC) $(OPT) $(PROF) -o $(PATHbin)lab3 $(PATHrec)lab3.c
+	$(CC) $(CFLAGS) $(OPT) $(PROF) -o $(PATHbin)lab3 $(PATHrec)lab3.c
 
 clean:
-	rm -f -d $(PATHbin)* $(PATHbin) ./log/* ./log 
+	rm -f -d $(PATHbin)* $(PATHbin) $(PATHlog)* $(PATHlog) $(PATHout)* $(PATHout) 

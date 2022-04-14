@@ -17,17 +17,15 @@ double **alloc_matrix(void) /* Allocate the array */
     /* Check if allocation succeeded. (check for NULL pointer) */
     int i, j, k; 
     double **array;
-    array = malloc(XDIM*sizeof(double *));
+    array = malloc((long unsigned int)XDIM*sizeof(double *));
     for(i = 0 ; i < XDIM ; i++)
-        array[i] = malloc(YDIM*sizeof(double) );
+        array[i] = malloc((long unsigned int)YDIM*sizeof(double) );
   
     for(j=0; j<XDIM; j++)
         for(k=0; k<YDIM; k++)
             memset(&array[k][j], j, sizeof(double));
     return array;
 }
-
-
 void fill(double** arr) {
     int i, j;
     time_t t1; 
@@ -50,7 +48,7 @@ void compute(double** arr, int kern[3][3]){
                     for(l = 0; l < 3; l++)
                     {
                         int x = i + (l-1);
-                        int y = j + (k-1);
+                        // int y = j + (k-1); Sin usar
                         dato = arr[x][j];
                         tmp_sum[l*3+k] = 2*(2*kern[l][k]*dato)/1000 + 1;
                     }
@@ -75,9 +73,9 @@ void print(double** arr) {
 
 int main(void)
 {
-    int i = 0;
+    // int i = 0; Sin usar
     double **arr;
-    int kern[3][3] = {0, -1, 0, -1, 5, -1, 0, -1, 0};
+    int kern[3][3] = {{0, -1, 0},{-1, 5, -1},{ 0, -1, 0}};
 
     computo = fopen("./log/computo.txt", "w");
     resultados = fopen("./log/resultados.txt", "w");
