@@ -19,4 +19,4 @@ $(PATHbin)lab3: $(PATHrec)lab3.c
 	$(CC) $(CFLAGS) $(OPT) $(PROF) -o $(PATHbin)lab3 $(PATHrec)lab3.c
 
 clean:
-	rm -f -d $(PATHbin)* $(PATHbin) $(PATHlog)* $(PATHlog) $(PATHout)* $(PATHout) 
+	rm -f -d $(PATHbin)* $(PATHbin) $(PATHlog)* $(PATHlog) $(PATHout)* $(PATHout) ./profiling/ejecucion.txt
