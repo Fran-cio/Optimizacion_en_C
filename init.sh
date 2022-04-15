@@ -2,6 +2,7 @@
 echo "--------------------------------------------Compilando lab3------------------------------"
 make lab3
 mkdir -p out
+rm -f ./profiling/ejecucion.txt
 echo "------------------------------------------Ejecutando programa----------------------------"
 for i in 1 2 3
 do

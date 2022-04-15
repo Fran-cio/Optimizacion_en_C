@@ -58,3 +58,7 @@ Los errores de conversion se castearon, los sin uso estan comentados y las llave
 
 El tiempo acumulado fue de 16.01 s. Es un cambio muy pequeño respecto a la prueba anterior, pero el resto de pruebas arrojaron resultados inferiores en todas las pruebas, por lo tanto hubo una mejoria de algun tipo.
 ___
+### Cambios descartados
+* En la funcion *alloc_matrix* se intento cambiar los for por while retrocediendo, empeoro los resultados de la funcion
+* En la misma que anterior se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos
+* Cambiar los *int* por *unsigned int* empeoro en pequeña escala los tiempos a nivel general

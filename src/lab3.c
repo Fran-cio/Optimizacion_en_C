@@ -6,89 +6,93 @@
 #include <time.h>
 
 
-int XDIM = 10000;
-int YDIM = 10000;
+int const XDIM = 10000;
+int const YDIM = 10000;
 
 FILE *computo, *resultados;
 
 // We return the pointer
 double **alloc_matrix(void) /* Allocate the array */
 {
-    /* Check if allocation succeeded. (check for NULL pointer) */
-    int i, j, k; 
-    double **array;
-    array = malloc((long unsigned int)XDIM*sizeof(double *));
-    for(i = 0 ; i < XDIM ; i++)
-        array[i] = malloc((long unsigned int)YDIM*sizeof(double) );
-  
-    for(j=0; j<XDIM; j++)
-        for(k=0; k<YDIM; k++)
-            memset(&array[k][j], j, sizeof(double));
-    return array;
+  /* Check if allocation succeeded. (check for NULL pointer) */
+  int i, j, k; 
+  double **array;
+  array = malloc((long unsigned int)XDIM*sizeof(double *));
+  long unsigned int tam_double = sizeof(double),
+       tam_array = (unsigned) YDIM * tam_double;
+
+  for(i = 0 ; i < XDIM ; i++)
+    array[i] = malloc(tam_array );
+
+  for(j=0; j<XDIM; j++)
+    for(k=0; k<YDIM; k++)
+      memset(&array[k][j], j, tam_double);
+
+  return array;
 }
 void fill(double** arr) {
-    int i, j;
-    time_t t1; 
-    srand ( (unsigned) time (&t1));
-    for(i = 0 ; i < XDIM ; i++)
-        for(j = 0 ; j < YDIM ; j++)
-            arr[i][j] = (double)(rand() % 100);
+  int i, j;
+  time_t t1; 
+  srand ( (unsigned) time (&t1));
+  for(i = 0 ; i < XDIM ; i++)
+    for(j = 0 ; j < YDIM ; j++)
+      arr[i][j] = (double)(rand() % 100);
 }
 
 void compute(double** arr, int kern[3][3]){
-    double tmp_sum[9];
-    double dato, accum;
-    int i, j, k, l;
-    for(i = 0 ; i < XDIM ; i++)
-        for(j = 0 ; j < YDIM ; j++){
-            fprintf(computo,"processing: %d - %d \n", i, j);
-            if(i >= 1 && j >=1 && i < XDIM-1 && j <YDIM-1)
-            {
-                for(k = 0; k < 3; k++)
-                    for(l = 0; l < 3; l++)
-                    {
-                        int x = i + (l-1);
-                        // int y = j + (k-1); Sin usar
-                        dato = arr[x][j];
-                        tmp_sum[l*3+k] = 2*(2*kern[l][k]*dato)/1000 + 1;
-                    }
-                accum = 0;
-                for(k = 0; k < 3; k++)
-                    for(l = 0; l < 3; l++)
-                        accum = accum + tmp_sum[k*3+l];
-            }
-            arr[i][j] = accum;
-        }    
+  double tmp_sum[9];
+  double dato, accum;
+  int i, j, k, l;
+  for(i = 0 ; i < XDIM ; i++)
+    for(j = 0 ; j < YDIM ; j++){
+      fprintf(computo,"processing: %d - %d \n", i, j);
+      if(i >= 1 && j >=1 && i < XDIM-1 && j <YDIM-1)
+      {
+        for(k = 0; k < 3; k++)
+          for(l = 0; l < 3; l++)
+          {
+            int x = (int)(i + (l-1));
+            // int y = j + (k-1); Sin usar
+            dato = arr[x][j];
+            tmp_sum[l*3+k] = 2*(2*kern[l][k]*dato)/1000 + 1;
+          }
+        accum = 0;
+        for(k = 0; k < 3; k++)
+          for(l = 0; l < 3; l++)
+            accum = accum + tmp_sum[k*3+l];
+      }
+      arr[i][j] = accum;
+    }    
 }
 
 
 
 void print(double** arr) {
-    int i, j;
-    for(i = 0 ; i < XDIM ; i++)
-        for(j = 0 ; j < YDIM ; j++)
-            fprintf(resultados,"array[%d][%d] = %f\n", i, j, arr[i][j]);
+  int i, j;
+  for(i = 0 ; i < XDIM ; i++)
+    for(j = 0 ; j < YDIM ; j++)
+      fprintf(resultados,"array[%d][%d] = %f\n", i, j, arr[i][j]);
 }
 
 
 int main(void)
 {
-    // int i = 0; Sin usar
-    double **arr;
-    int kern[3][3] = {{0, -1, 0},{-1, 5, -1},{ 0, -1, 0}};
+  // int i = 0; Sin usar
+  double **arr;
+  int kern[3][3] = {{0, -1, 0},{-1, 5, -1},{ 0, -1, 0}};
 
-    computo = fopen("./log/computo.txt", "w");
-    resultados = fopen("./log/resultados.txt", "w");
+  computo = fopen("./log/computo.txt", "w");
+  resultados = fopen("./log/resultados.txt", "w");
 
-    arr = alloc_matrix();
-    fill(arr);
-    compute(arr, kern);
-    print(arr);
+  arr = alloc_matrix();
+  fill(arr);
+  compute(arr, kern);
+  print(arr);
 
-    fclose(computo);
-    fclose(resultados);
+  fclose(computo);
+  fclose(resultados);
 
-    printf("Fin de la ejecucion\n");
+  printf("Fin de la ejecucion\n");
 
-    return 0;
+  return 0;
 }
