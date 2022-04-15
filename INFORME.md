@@ -73,6 +73,27 @@ Los cambios hechos fueron, cambiar los valores a *unsigned int* para que todos t
  0.39  | 15.40      | 0.06    |       |        |       _init
 
 Es realmente muy dificil considerar si hubo una mejoria o no, los numeros indican que si pero otras ejecuciones podrian reflejar que no hubo tanto cambio, de toda formas se queda ya que parece aportar un poco a la ejecucion.
+
+### Cuarto Cambio
+> Revisando todas las tablas se ve que la funcion que mas tiempo ocupa es compute, al revisarla se ven varios bucles y operaciones que parecen estar de mas, podemos ver los siguientes puntos.
+
+* Hay un if dentro del for que solamente excluye las 4 primeras iteraciones y la ultima, entonces para salvar ese chequeo se hacen manualmente previa y a posterior del ciclo
+* Se repite 2 veces los ciclos que escribe y lee el *temp_sum*, esta se puede simplificar y hacer en uno sola ya que la suma no va a ser afectada por el orden. Este ciclo se puede quitar y hacer secuencialmente pero creo que no justifica el rendimiento
+* La variable acum se estaba asignando sin definir, por lo tanto en la ejecucion original hay valores incoherentes, esto se considero erroneo y se asigno a 0. (Decision de diseño)
+
+![cambio 4](./doc_informe/Cambio4.png)
+
+ %  | cumulative  | self      |       | self    | total
+ --- | --- | --- | --- | --- | ---
+ time  | seconds  | seconds   | calls  | s/call  | s/call  name    
+ 85.75   |  10.29 | 10.29       | 1   | 10.29   | 10.29  compute
+ 9.83    | 11.47    | 1.18       | 1    | 1.18    | 1.18  print
+ 2.17    | 11.73    | 0.26       | 1    | 0.26    | 0.26  fill
+ 1.92    | 11.96    | 0.23       | 1    | 0.23    | 0.23  alloc_matrix
+ 0.33 | 12.00    | 0.04          |       |           | _init
+
+Se ve una disminucion en los tiempos y la salida del programa ahora resulta mas coherente.
 ___
 ### Cambios descartados
 * En la funcion *alloc_matrix* se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos, por alguna razon cuando el acceso  la direccion de memoria se hace incrementando el valor de la izquierda, hay un acceso practicamente 2 veces mas rapido. Esto resulta ilustrador, y es de lo que habla en [COLUMN-MAJOR ACCESSING](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html), sinceramente la idea intuitiva hubiera sido al reves.
+* Cambiar el while agregado en *alloc_matrix* por un for desenrrollado mostro que en algunas iteraciones era mas rapido pero en otras este empeoraba

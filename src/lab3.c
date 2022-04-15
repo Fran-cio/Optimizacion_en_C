@@ -34,7 +34,9 @@ double **alloc_matrix(void) /* Allocate the array */
   }
   return array;
 }
-void fill(double** arr) {
+
+void fill(double** arr) 
+{
   uint i, j;
   time_t t1; 
   srand ( (unsigned) time (&t1));
@@ -43,30 +45,40 @@ void fill(double** arr) {
       arr[i][j] = (double)(rand() % 100);
 }
 
-void compute(double** arr, int kern[3][3]){
-  double tmp_sum[9];
-  double dato, accum;
+void compute(double** arr, int kern[3][3])
+{
+  double dato, accum=0;
   uint i, j, k, l;
-  for(i = 0 ; i < XDIM ; i++)
-    for(j = 0 ; j < YDIM ; j++){
+
+  fprintf(computo,"processing: 0 - 0 \n");
+  arr[0][0] = accum;
+  
+  fprintf(computo,"processing: 0 - 1 \n");
+  arr[0][1] = accum;
+
+  fprintf(computo,"processing: 1 - 0 \n");
+  arr[1][0] = accum;
+
+  fprintf(computo,"processing: 1 - 1 \n");
+  arr[1][1] = accum;
+
+  for(i = 1 ; i < XDIM-1 ; i++)
+    for(j = 1; j < YDIM-1 ; j++){
+      accum = 0;
       fprintf(computo,"processing: %d - %d \n", i, j);
-      if(i >= 1 && j >=1 && i < XDIM-1 && j <YDIM-1)
-      {
-        for(k = 0; k < 3; k++)
-          for(l = 0; l < 3; l++)
-          {
-            int x = (int)(i + (l-1));
-            // int y = j + (k-1); Sin usar
-            dato = arr[x][j];
-            tmp_sum[l*3+k] = 2*(2*kern[l][k]*dato)/1000 + 1;
-          }
-        accum = 0;
-        for(k = 0; k < 3; k++)
-          for(l = 0; l < 3; l++)
-            accum = accum + tmp_sum[k*3+l];
-      }
+      for(k = 0; k < 3; k++)
+        for(l = 0; l < 3; l++)
+        {
+          int x = (int)(i + (l-1));
+          // int y = j + (k-1); Sin usar
+          dato = arr[x][j];
+          accum += (4*kern[l][k]*dato)/1000 + 1;
+        }
       arr[i][j] = accum;
     }    
+
+  fprintf(computo,"processing: %d - %d \n", XDIM-1, YDIM-1);
+  arr[XDIM-1][YDIM-1] = accum;
 }
 
 
