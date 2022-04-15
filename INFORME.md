@@ -58,7 +58,21 @@ Los errores de conversion se castearon, los sin uso estan comentados y las llave
 
 El tiempo acumulado fue de 16.01 s. Es un cambio muy pequeño respecto a la prueba anterior, pero el resto de pruebas arrojaron resultados inferiores en todas las pruebas, por lo tanto hubo una mejoria de algun tipo.
 ___
+### Tercer Cambio
+> La funcion *alloc_matrix* tiene 1 loop donde alloca memoria y otro donde coloca un valor en las columnas del mismo. Se intento reducir la cantidad de loops, pero era necesario cambiar la forma de asignacion, la cual en **Cambios descartados** se detalla en profundidad.
+Los cambios hechos fueron, cambiar los valores a *unsigned int* para que todos trabajen sin signo, y cambiar los for a while decrecientes por lo que se comenta en [LOOP INVERSION](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html):
+![cambio 3](./doc_informe/Cambio_3.png)
+
+ %     | cumulative | self    |       | self   | total           
+ ---   | ---        | ---     | ---   | ---    | ---
+ time  | seconds    | seconds | calls | s/call | s/call  name    
+ 88.51 | 13.63      | 13.63   | 1     | 13.63  | 13.63  compute
+ 8.12  | 14.88      | 1.25    | 1     | 1.25   | 1.25  print
+ 1.69  | 15.14      | 0.26    | 1     | 0.26   | 0.26  fill
+ 1.30  | 15.34      | 0.20    | 1     | 0.20   | 0.20  alloc_matrix
+ 0.39  | 15.40      | 0.06    |       |        |       _init
+
+Es realmente muy dificil considerar si hubo una mejoria o no, los numeros indican que si pero otras ejecuciones podrian reflejar que no hubo tanto cambio, de toda formas se queda ya que parece aportar un poco a la ejecucion.
+___
 ### Cambios descartados
-* En la funcion *alloc_matrix* se intento cambiar los for por while retrocediendo, empeoro los resultados de la funcion
-* En la misma que anterior se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos
-* Cambiar los *int* por *unsigned int* empeoro en pequeña escala los tiempos a nivel general
+* En la funcion *alloc_matrix* se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos, por alguna razon cuando el acceso  la direccion de memoria se hace incrementando el valor de la izquierda, hay un acceso practicamente 2 veces mas rapido. Esto resulta ilustrador, y es de lo que habla en [COLUMN-MAJOR ACCESSING](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html), sinceramente la idea intuitiva hubiera sido al reves.

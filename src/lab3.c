@@ -6,8 +6,8 @@
 #include <time.h>
 
 
-int const XDIM = 10000;
-int const YDIM = 10000;
+uint const XDIM = 10000;
+uint const YDIM = 10000;
 
 FILE *computo, *resultados;
 
@@ -15,23 +15,27 @@ FILE *computo, *resultados;
 double **alloc_matrix(void) /* Allocate the array */
 {
   /* Check if allocation succeeded. (check for NULL pointer) */
-  int i, j, k; 
+  uint  i, j, k; 
   double **array;
   array = malloc((long unsigned int)XDIM*sizeof(double *));
-  long unsigned int tam_double = sizeof(double),
-       tam_array = (unsigned) YDIM * tam_double;
+  unsigned int tam_double = (unsigned int) sizeof(double);
+  unsigned int tam_array = YDIM * tam_double;
 
-  for(i = 0 ; i < XDIM ; i++)
-    array[i] = malloc(tam_array );
+  i= XDIM + 1;
+  while(i--)
+    array[i] = malloc( tam_array );
 
-  for(j=0; j<XDIM; j++)
-    for(k=0; k<YDIM; k++)
-      memset(&array[k][j], j, tam_double);
-
+  j= XDIM + 1;
+  while(j--)
+  {
+    k= YDIM + 1;
+    while(k--)
+      memset(&array[k][j], (int)k,  tam_double );
+  }
   return array;
 }
 void fill(double** arr) {
-  int i, j;
+  uint i, j;
   time_t t1; 
   srand ( (unsigned) time (&t1));
   for(i = 0 ; i < XDIM ; i++)
@@ -42,7 +46,7 @@ void fill(double** arr) {
 void compute(double** arr, int kern[3][3]){
   double tmp_sum[9];
   double dato, accum;
-  int i, j, k, l;
+  uint i, j, k, l;
   for(i = 0 ; i < XDIM ; i++)
     for(j = 0 ; j < YDIM ; j++){
       fprintf(computo,"processing: %d - %d \n", i, j);
@@ -68,7 +72,7 @@ void compute(double** arr, int kern[3][3]){
 
 
 void print(double** arr) {
-  int i, j;
+  uint i, j;
   for(i = 0 ; i < XDIM ; i++)
     for(j = 0 ; j < YDIM ; j++)
       fprintf(resultados,"array[%d][%d] = %f\n", i, j, arr[i][j]);
