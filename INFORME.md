@@ -94,6 +94,21 @@ Es realmente muy dificil considerar si hubo una mejoria o no, los numeros indica
 
 Se ve una disminucion en los tiempos y la salida del programa ahora resulta mas coherente.
 ___
+### Quinto Cambio (O tercer cambio bis)
+> Luego de la modificacion anterior, decidi tomarme ciertas decisiones de diseño con el fin de mejorar el rendimiento sin afectar el programa en si, este es el caso de el alocamiento y seteo el cual se hacia de una manera inncesaria dado que luego se iba a llenar con otros simbolos. Por esta razon se dejo solo 1 bucle y se seteo a 0 en una sola iteracion.
+![cambio 5](./doc_informe/Cambio5.png)
+
+ % | cumulative  | self      |       | self    | total           
+ --- | --- | --- | --- | --- | --- 
+ time  | seconds  | seconds   | calls  | s/call  | s/call  name    
+ 86.98    | 10.22   | 10.22       | 1   | 10.22   | 10.22  compute
+ 9.62    | 11.35    | 1.13       | 1    | 1.13    | 1.13  print
+ 3.06    | 11.71    | 0.36       | 1    | 0.36    | 0.36  fill
+ 0.34    | 11.75    | 0.04       |      |         |       _init
+ 0.00    | 11.75    | 0.00       | 1    | 0.00    | 0.00  alloc_matrix
+
+Si bien este cambio es pequeño en la cantidad de tiempo ahorrada, deja en 0 practicamente el tiempo dedicado a la funcion *alloc_matrix*, por lo tanto me parece una excelente inclusion.
+___
 ### Cambios descartados
 * En la funcion *alloc_matrix* se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos, por alguna razon cuando el acceso  la direccion de memoria se hace incrementando el valor de la izquierda, hay un acceso practicamente 2 veces mas rapido. Esto resulta ilustrador, y es de lo que habla en [COLUMN-MAJOR ACCESSING](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html), sinceramente la idea intuitiva hubiera sido al reves.
 * Cambiar el while agregado en *alloc_matrix* por un for desenrrollado mostro que en algunas iteraciones era mas rapido pero en otras este empeoraba

@@ -15,23 +15,18 @@ FILE *computo, *resultados;
 double **alloc_matrix(void) /* Allocate the array */
 {
   /* Check if allocation succeeded. (check for NULL pointer) */
-  uint  i, j, k; 
+  uint  i; 
   double **array;
   array = malloc((long unsigned int)XDIM*sizeof(double *));
   unsigned int tam_double = (unsigned int) sizeof(double);
   unsigned int tam_array = YDIM * tam_double;
 
   i= XDIM + 1;
-  while(i--)
+  while(i--){
     array[i] = malloc( tam_array );
-
-  j= XDIM + 1;
-  while(j--)
-  {
-    k= YDIM + 1;
-    while(k--)
-      memset(&array[k][j], (int)k,  tam_double );
+    memset(array[i], 0 , tam_array );
   }
+
   return array;
 }
 
