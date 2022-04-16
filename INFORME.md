@@ -130,6 +130,21 @@ Si comentamos estas funciones de entrada y salida podemos ver:
 ![Tiempo sin IO](./doc_informe/tiempos_con_sin_IO.png)
 
 Dejando expuesto la cantidad de tiempo que se insume en estas operaciones.
+
+### Conclusiones
+Si bien el informe esta sujeto a cambios que se van a ir agregando cuando amerite, estas son las propuestas evaluadas yy aceptadas hasta la fecha. Se redujo 3 veces el tiempo de ejecucion (Sin contar la I/O sino seria mucho mas). el trabajo ha sido de gran ayuda para ilustar los conceptos vistos en clase y ademas dejar en claro que no siempre la opcion mas practica en la mejor.
+A modo de conclusion se genero una tabla y un grafico a partir de ella.
+
+ |              | Cambio 0 | Cambio 1	| Cambio 2	| Cambio 3	| Cambio 4	| Cambio 5	| Cambio 6
+ | ---            | ---      | ---        | ---           | ---           | ---           | ---           | ---
+ | Compute	| 22,1	   | 15,11	| 14,13	        | 13,63	        | 10,29	        | 10,22	        | 9,57
+ | Print	        | 7,35	   | 1,28	| 1,34	        | 1,25	        | 1,18	        | 1,13          | 1,08
+ | Fill	        | 0,28	   | 0,2	| 0,14	        | 0,26	        | 0,26	        | 0,36	        | 0,25
+ | Alloc_matrix	| 0,21	   | 0,24	| 0,32	        | 0,2	        | 0,23	        | 0	        | 0
+ | Total	        | 30,6	   | 16,9	| 16,01	        | 15,4	        | 12	        | 11,75	        | 10,94
+
+![Grafico](./doc_informe/grafico.png)
+
 ___
 ### Cambios descartados
 * En la funcion *alloc_matrix* se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos, por alguna razon cuando el acceso  la direccion de memoria se hace incrementando el valor de la izquierda, hay un acceso practicamente 2 veces mas rapido. Esto resulta ilustrador, y es de lo que habla en [COLUMN-MAJOR ACCESSING](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html), sinceramente la idea intuitiva hubiera sido al reves.
