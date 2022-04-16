@@ -109,6 +109,32 @@ ___
 
 Si bien este cambio es pequeño en la cantidad de tiempo ahorrada, deja en 0 practicamente el tiempo dedicado a la funcion *alloc_matrix*, por lo tanto me parece una excelente inclusion.
 ___
+### Sexto Cambio
+> Lo que mas realentiza el programa viene siendo el I/O. El cambio a fprintf funciono pero no fue suficiente para aceptar dejarlo asi. Por lo tanto se elimino el loggeo inncesario de la funcion *compute*. 
+
+ %  | cumulative  | self     |        | self    | total           
+ --- | --- | --- | --- | --- | ---
+ time  | seconds  | seconds   | calls  | s/call  | s/call  name    
+ 87.48      | 9.57    | 9.57       | 1    | 9.57    | 9.57  compute
+ 9.87    | 10.65    | 1.08       | 1    | 1.08    | 1.08  print
+ 2.29    | 10.90    | 0.25       | 1    | 0.25    | 0.25  fill
+ 0.37    | 10.94    | 0.04       |      |         |       _init
+ 0.00    | 10.94    | 0.00       | 1    | 0.00    | 0.00  alloc_matrix
+
+Se puede ver una pequeña mejoria en los tiempos en general.
+Como dato extra de las Op de I/O estas representan un tiempo enorme para que se ejecuten, solamente hace falta ver la siguiente comparativa. 
+Si vemos la imagen se ve que el time stamp del script es mucho mayor que el tiempo que indica el profiling, esto se debe a que el tiempo que se insume en las operaciones de entrada y salida no se ve reflajado.
+![Tiempo con IO](./doc_informe/tiempos_con_IO.png)
+
+Si comentamos estas funciones de entrada y salida podemos ver:
+![Tiempo sin IO](./doc_informe/tiempos_con_sin_IO.png)
+
+Dejando expuesto la cantidad de tiempo que se insume en estas operaciones.
+___
 ### Cambios descartados
 * En la funcion *alloc_matrix* se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos, por alguna razon cuando el acceso  la direccion de memoria se hace incrementando el valor de la izquierda, hay un acceso practicamente 2 veces mas rapido. Esto resulta ilustrador, y es de lo que habla en [COLUMN-MAJOR ACCESSING](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html), sinceramente la idea intuitiva hubiera sido al reves.
 * Cambiar el while agregado en *alloc_matrix* por un for desenrrollado mostro que en algunas iteraciones era mas rapido pero en otras este empeoraba
+* El uso de flag no bloqueante con file descriptors
+* Quitar o modificar los bucles con el random, desconozco la importancia de esa caracteristica
+* Quitar o modificar el bucle print, ahi lo que tarda es el printf, no se no el bucle
+* Cambiar los tipos de las variables, ya que estas parecian ser las correctas

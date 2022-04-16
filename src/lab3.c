@@ -1,10 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <sys/types.h>
 #include <time.h>
-
 
 uint const XDIM = 10000;
 uint const YDIM = 10000;
@@ -42,25 +39,21 @@ void fill(double** arr)
 
 void compute(double** arr, int kern[3][3])
 {
+  fprintf(computo,"inicio del proceso\n");
   double dato, accum=0;
   uint i, j, k, l;
 
-  fprintf(computo,"processing: 0 - 0 \n");
   arr[0][0] = accum;
   
-  fprintf(computo,"processing: 0 - 1 \n");
   arr[0][1] = accum;
 
-  fprintf(computo,"processing: 1 - 0 \n");
   arr[1][0] = accum;
 
-  fprintf(computo,"processing: 1 - 1 \n");
   arr[1][1] = accum;
 
   for(i = 1 ; i < XDIM-1 ; i++)
     for(j = 1; j < YDIM-1 ; j++){
       accum = 0;
-      fprintf(computo,"processing: %d - %d \n", i, j);
       for(k = 0; k < 3; k++)
         for(l = 0; l < 3; l++)
         {
@@ -72,8 +65,10 @@ void compute(double** arr, int kern[3][3])
       arr[i][j] = accum;
     }    
 
-  fprintf(computo,"processing: %d - %d \n", XDIM-1, YDIM-1);
   arr[XDIM-1][YDIM-1] = accum;
+
+  fprintf(computo,"fin del proceso\n");
+  
 }
 
 
@@ -82,7 +77,7 @@ void print(double** arr) {
   uint i, j;
   for(i = 0 ; i < XDIM ; i++)
     for(j = 0 ; j < YDIM ; j++)
-      fprintf(resultados,"array[%d][%d] = %f\n", i, j, arr[i][j]);
+      fprintf(resultados,"[%d][%d] = %f\n", i, j, arr[i][j]);
 }
 
 
