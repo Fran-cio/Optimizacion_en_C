@@ -130,7 +130,7 @@ Si comentamos estas funciones de entrada y salida podemos ver:
 ![Tiempo sin IO](./doc_informe/tiempos_con_sin_IO.png)
 
 Dejando expuesto la cantidad de tiempo que se insume en estas operaciones.
-
+___
 ### Conclusiones
 Si bien el informe esta sujeto a cambios que se van a ir agregando cuando amerite, estas son las propuestas evaluadas yy aceptadas hasta la fecha. Se redujo 3 veces el tiempo de ejecucion (Sin contar la I/O sino seria mucho mas). el trabajo ha sido de gran ayuda para ilustar los conceptos vistos en clase y ademas dejar en claro que no siempre la opcion mas practica en la mejor.
 A modo de conclusion se genero una tabla y un grafico a partir de ella.
@@ -153,3 +153,13 @@ ___
 * Quitar o modificar los bucles con el random, desconozco la importancia de esa caracteristica
 * Quitar o modificar el bucle print, ahi lo que tarda es el printf, no se no el bucle
 * Cambiar los tipos de las variables, ya que estas parecian ser las correctas
+
+## Herramientas de profiling
+### Cachegrid con callgrid
+Es un cache profiler, que provee una simulacion detallada de la cache en el cpu, sirve para idenficiar los *cache missed* y contarlos, tambien ver las referencias a memoria y instrucciones ejecutando linea a linea. Callgrid es una extension que ademas provee *callgraphs*, y una GUI para visualizar mejor la salida de Cachegrid.
+
+### AppDynamics
+Este software de ciscoes un gestor de performance y analizador de operaciones, se enfocan en el manejo de performance en entornos de la nube y arquitecturas en red.
+
+### CodeXl (AMD)
+Una profiler con una GUI muy comoda que usa el profiling especifico del hardware ya que este esta diseñado y funciona en procesadores AMD, pero ademas posee tecnicas de lo profiling que se pueden utilizar enprocesadores no necesariamente AMD. En Abril de 2020 este dejo de tener soporte de parte de AMD por lo cual su repositorio esta archivado.
