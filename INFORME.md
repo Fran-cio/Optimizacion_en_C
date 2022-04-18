@@ -43,6 +43,7 @@ ___
 ### Segundo Cambio
 > Para el primer cambio me olvide de cambiar las flags de compilacion, por lo tanto me saltie los warnings que habia en el.
 Los warnings corregidos fueron:
+
 ![Warnigs](./doc_informe/Warnings.png)
 
 Los errores de conversion se castearon, los sin uso estan comentados y las llaves se colocaron.
@@ -61,6 +62,7 @@ ___
 ### Tercer Cambio
 > La funcion *alloc_matrix* tiene 1 loop donde alloca memoria y otro donde coloca un valor en las columnas del mismo. Se intento reducir la cantidad de loops, pero era necesario cambiar la forma de asignacion, la cual en **Cambios descartados** se detalla en profundidad.
 Los cambios hechos fueron, cambiar los valores a *unsigned int* para que todos trabajen sin signo, y cambiar los for a while decrecientes por lo que se comenta en [LOOP INVERSION](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html):
+
 ![cambio 3](./doc_informe/Cambio_3.png)
 
  %     | cumulative | self    |       | self   | total           
@@ -96,6 +98,7 @@ Se ve una disminucion en los tiempos y la salida del programa ahora resulta mas 
 ___
 ### Quinto Cambio (O tercer cambio bis)
 > Luego de la modificacion anterior, decidi tomarme ciertas decisiones de diseño con el fin de mejorar el rendimiento sin afectar el programa en si, este es el caso de el alocamiento y seteo el cual se hacia de una manera inncesaria dado que luego se iba a llenar con otros simbolos. Por esta razon se dejo solo 1 bucle y se seteo a 0 en una sola iteracion.
+
 ![cambio 5](./doc_informe/Cambio5.png)
 
  % | cumulative  | self      |       | self    | total           
@@ -159,7 +162,23 @@ En el **cambio 4** se simplificaron varios for con el objetivo de reducir el ove
  0.83    | 10.81    | 0.09       |      |         |       _init
  0.00    | 10.81    | 0.00       | 1    | 0.00    | 0.00  alloc_matrix
 
-Los resultados son raros ya que el agregar 2 bucles mas deberian empeorar los tiempos pero no esta sucediendo, asumo que es el estado del equipo al momento de la ejecucion ya que las 3 pruebas que se hicieron arrojaron el mismo resultado.
+Los resultados son raros deberian empeorar los tiempos pero no esta sucediendo, asumo que es el estado del equipo al momento de la ejecucion ya que las 3 pruebas que se hicieron arrojaron el mismo resultado.
+
+### Update #2 
+Ademas se realizaron las mismas pruebas en una pc con mayor cantidad de recursos:
+![neofetch](./doc_informe/equipo_2.png)
+
+La tabla de prubas quedaria de la siguiente manera.
+
+ |              | Cambio 0 | Cambio 1	| Cambio 2	| Cambio 3	| Cambio 4	| Cambio 5	| Cambio 6
+ | ---            | ---      | ---        | ---           | ---           | ---           | ---           | ---
+ | Compute	| 7,79	   | 5,06	| 4,99	        | 4,88	        | 3,39	        | 3,92	        | 3,45
+ | Print	        | 0,6	   | 0,24	| 0,19	        | 0,17	        | 0,19	        | 0,18         | 0,18
+ | Fill	        | 0,21	   | 0,16	| 0,18	        | 0,10	        | 0,18	        | 0,14	        | 0,17
+ | Alloc_matrix	| 0,21	   | 0,10	| 0,16	        | 0,16	        | 0,13	        | 0	        | 0
+ | Total	        | 8,77	   | 5,65	| 5,6	        | 5,37	        | 3,93	        | 4,22	        | 3,81
+
+Si analizamos rapidamente los resultados resulta un poco mas dificil ver los cambios de rendimiento que en el caso de la pc de menores recursos.
 ___
 ### Cambios descartados
 * En la funcion *alloc_matrix* se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos, por alguna razon cuando el acceso  la direccion de memoria se hace incrementando el valor de la izquierda, hay un acceso practicamente 2 veces mas rapido. Esto resulta ilustrador, y es de lo que habla en [COLUMN-MAJOR ACCESSING](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html), sinceramente la idea intuitiva hubiera sido al reves.

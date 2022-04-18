@@ -75,7 +75,7 @@ void print(double** arr) {
   uint i, j;
   for(i = 0 ; i < XDIM ; i++)
     for(j = 0 ; j < YDIM ; j++)
-      printf("[%d][%d] = %f\n", i, j, arr[i][j]);
+      fprintf(resultados,"[%d][%d] = %f\n", i, j, arr[i][j]);
 }
 
 
