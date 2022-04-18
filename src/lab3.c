@@ -40,11 +40,16 @@ void fill(double** arr)
 void compute(double** arr, int kern[3][3])
 {
   fprintf(computo,"inicio del proceso\n");
-  double dato, accum;
+  double dato, accum = 0;
   uint i, j, k, l;
 
+  memset(arr[0], (int)accum, YDIM*sizeof(double));
+
   for(i = 1 ; i < XDIM-1 ; i++)
-    for(j = 1; j < YDIM-1 ; j++){
+  {
+    arr[i][0] = accum;
+    for(j = 1; j < YDIM-1 ; j++)
+    {
       accum = 0;
       for(k = 0; k < 3; k++)
         for(l = 0; l < 3; l++)
@@ -56,20 +61,10 @@ void compute(double** arr, int kern[3][3])
         }
       arr[i][j] = accum;
     }    
-
-  for(i=1; i<XDIM;i++){
-    accum = arr[i-1][YDIM-2];
-    arr[i][0] = accum;
     arr[i][YDIM-1] = accum;
   }
   
-  accum = arr[XDIM-2][YDIM-2];
-  for(j=0;j < YDIM ; j++)
-  {
-    arr[0][j] = 0;
-
-    arr[XDIM-1][j] = accum;
-  }
+  memset(arr[XDIM-1],(int) accum, YDIM*sizeof(double));
 
   fprintf(computo,"fin del proceso\n");
 }
@@ -80,7 +75,7 @@ void print(double** arr) {
   uint i, j;
   for(i = 0 ; i < XDIM ; i++)
     for(j = 0 ; j < YDIM ; j++)
-      fprintf(resultados,"[%d][%d] = %f\n", i, j, arr[i][j]);
+      printf("[%d][%d] = %f\n", i, j, arr[i][j]);
 }
 
 
