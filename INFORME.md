@@ -146,6 +146,21 @@ A modo de conclusion se genero una tabla y un grafico a partir de ella.
 ![Grafico](./doc_informe/grafico.png)
 
 ___
+### Update #1 
+En el **cambio 4** se simplificaron varios for con el objetivo de reducir el overhead que generaria tener un if dentro de un bucle. Esta simplificacion a decir verdad no era coherente con la original, ya que ignoraba que el *if* filtraba los bordes de la matriz, cosa que ignore en su momento pero ahora vine a corregir.
+
+![update1](./doc_informe/Update1.png)
+
+ time  | seconds  | seconds   | calls  | s/call  | s/call  name    
+ --- | --- | --- | --- | --- | ---
+ 87.23   | 9.43    | 9.43       | 1    | 9.43    | 9.43  compute
+ 9.71    | 10.48    | 1.05       | 1   | 1.05    | 1.05  print
+ 2.22    | 10.72    | 0.24       | 1    | 0.24    | 0.24  fill
+ 0.83    | 10.81    | 0.09       |      |         |       _init
+ 0.00    | 10.81    | 0.00       | 1    | 0.00    | 0.00  alloc_matrix
+
+Los resultados son raros ya que el agregar 2 bucles mas deberian empeorar los tiempos pero no esta sucediendo, asumo que es el estado del equipo al momento de la ejecucion ya que las 3 pruebas que se hicieron arrojaron el mismo resultado.
+___
 ### Cambios descartados
 * En la funcion *alloc_matrix* se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos, por alguna razon cuando el acceso  la direccion de memoria se hace incrementando el valor de la izquierda, hay un acceso practicamente 2 veces mas rapido. Esto resulta ilustrador, y es de lo que habla en [COLUMN-MAJOR ACCESSING](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html), sinceramente la idea intuitiva hubiera sido al reves.
 * Cambiar el while agregado en *alloc_matrix* por un for desenrrollado mostro que en algunas iteraciones era mas rapido pero en otras este empeoraba

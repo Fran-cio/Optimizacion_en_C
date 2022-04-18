@@ -40,16 +40,8 @@ void fill(double** arr)
 void compute(double** arr, int kern[3][3])
 {
   fprintf(computo,"inicio del proceso\n");
-  double dato, accum=0;
+  double dato, accum;
   uint i, j, k, l;
-
-  arr[0][0] = accum;
-  
-  arr[0][1] = accum;
-
-  arr[1][0] = accum;
-
-  arr[1][1] = accum;
 
   for(i = 1 ; i < XDIM-1 ; i++)
     for(j = 1; j < YDIM-1 ; j++){
@@ -65,10 +57,21 @@ void compute(double** arr, int kern[3][3])
       arr[i][j] = accum;
     }    
 
-  arr[XDIM-1][YDIM-1] = accum;
+  for(i=1; i<XDIM;i++){
+    accum = arr[i-1][YDIM-2];
+    arr[i][0] = accum;
+    arr[i][YDIM-1] = accum;
+  }
+  
+  accum = arr[XDIM-2][YDIM-2];
+  for(j=0;j < YDIM ; j++)
+  {
+    arr[0][j] = 0;
+
+    arr[XDIM-1][j] = accum;
+  }
 
   fprintf(computo,"fin del proceso\n");
-  
 }
 
 
