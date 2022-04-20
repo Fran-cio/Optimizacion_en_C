@@ -179,6 +179,22 @@ La tabla de prubas quedaria de la siguiente manera.
  | Total	        | 8,77	   | 5,65	| 5,6	        | 5,37	        | 3,93	        | 4,22	        | 3,81
 
 Si analizamos rapidamente los resultados resulta un poco mas dificil ver los cambios de rendimiento que en el caso de la pc de menores recursos.
+
+___
+### Update #3
+> A priori no crei necesario este cambio pero despues de testearlo fue un cambio grande en la performance. Se trata de un Unroll del for anidado dentro de el compute, donde se hacian solamente 9 operaciones en bucle, las cuales no crei que afectaran, pero si lo hacian bastante.
+
+![Update3](./doc_informe/Update3.png)
+
+ time  | seconds  | seconds   | calls  | s/call  | s/call  name    
+ --- | --- | --- | --- | --- | ---
+ 86.96     | 2.40    | 2.40       | 1    | 2.40    | 2.40  compute
+ 8.70     | 2.64    | 0.24       | 1    | 0.24    | 0.24  print
+ 2.90     | 2.72    | 0.08       | 1    | 0.08    | 0.08  fill
+ 1.45     | 2.76    | 0.04       |      |         |       _init
+ 0.00     | 2.76    | 0.00       | 1    | 0.00    | 0.00  alloc_matrix
+
+Es un cambio de un segundo por lo cual creo que corresponde considerarlo un cambio a agregar.
 ___
 ### Cambios descartados
 * En la funcion *alloc_matrix* se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos, por alguna razon cuando el acceso  la direccion de memoria se hace incrementando el valor de la izquierda, hay un acceso practicamente 2 veces mas rapido. Esto resulta ilustrador, y es de lo que habla en [COLUMN-MAJOR ACCESSING](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html), sinceramente la idea intuitiva hubiera sido al reves.

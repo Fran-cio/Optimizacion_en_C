@@ -41,7 +41,7 @@ void compute(double** arr, int kern[3][3])
 {
   fprintf(computo,"inicio del proceso\n");
   double dato, accum = 0;
-  uint i, j, k, l;
+  uint i, j;
 
   memset(arr[0], (int)accum, YDIM*sizeof(double));
 
@@ -51,19 +51,49 @@ void compute(double** arr, int kern[3][3])
     for(j = 1; j < YDIM-1 ; j++)
     {
       accum = 0;
-      for(k = 0; k < 3; k++)
-        for(l = 0; l < 3; l++)
-        {
-          int x = (int)(i + (l-1));
-          // int y = j + (k-1); Sin usar
-          dato = arr[x][j];
-          accum += (4*kern[l][k]*dato)/1000 + 1;
-        }
+
+      int x = ((int)i + (0-1));
+      // int y = j + (k-1); Sin usar
+      dato = arr[x][j];
+      accum += (4*kern[0][0]*dato)/1000 + 1;
+
+      x = ((int)i + (0-1));
+      dato = arr[x][j];
+      accum += (4*kern[0][1]*dato)/1000 + 1;
+
+      x = ((int)i + (0-1));
+      dato = arr[x][j];
+      accum += (4*kern[0][2]*dato)/1000 + 1;
+
+      x = ((int)i + (0-1));
+      dato = arr[x][j];
+      accum += (4*kern[1][0]*dato)/1000 + 1;
+
+      x = ((int)i + (0-1));
+      dato = arr[x][j];
+      accum += (4*kern[1][1]*dato)/1000 + 1;
+
+      x = ((int)i + (1-1));
+      dato = arr[x][j];
+      accum += (4*kern[1][2]*dato)/1000 + 1;
+
+      x = ((int)i + (2-1));
+      dato = arr[x][j];
+      accum += (4*kern[2][0]*dato)/1000 + 1;
+
+      x = ((int)i + (2-1));
+      dato = arr[x][j];
+      accum += (4*kern[2][1]*dato)/1000 + 1;
+
+      x = ((int)i + (2-1));
+      dato = arr[x][j];
+      accum += (4*kern[2][2]*dato)/1000 + 1;
+
       arr[i][j] = accum;
     }    
     arr[i][YDIM-1] = accum;
   }
-  
+
   memset(arr[XDIM-1],(int) accum, YDIM*sizeof(double));
 
   fprintf(computo,"fin del proceso\n");
