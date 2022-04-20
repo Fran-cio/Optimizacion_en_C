@@ -196,6 +196,21 @@ ___
 
 Es un cambio de un segundo por lo cual creo que corresponde considerarlo un cambio a agregar.
 ___
+### Update #4 (Unit test) 
+A decir verdad no queria hacer este unit test ya que para comprobar que la salida de ambos programas era la misma, debia asegurarme que la seed del random y el valor inicial de accum sea el mismo. A fines de completar con la consigna, corresponde agregarlo.
+
+Cree una carpeta aparte para no tocar el proyecto orginal, ya que mi plan es dejarlo lo mas intacto posible.
+* Se acordo una seed para el generador random : 11
+* La variable *accum* en *compute* se inicaliza en 0.
+* La unica salida que se guarda se va a un archivo .txt que borra para evitar ocupar espacio (Pesan 2.2Gb cada salida)
+
+Con esto, he de admitir que salieron a la luz un par de errores de asignacion que cometi en cambios anteriores, los cuales no deberian repercutir en el rendimiento general pero si afectaban algunos valores a la salida y quedaban expuestos con el checksum.
+La forma de comparar las salidas es con un **SHA1** el cual devuelve un hash unico del archivo, si este varia de alguna manera lo vamos a notar alli.
+
+El script es un *.sh* el cual solamente va a compilar los archivos, los va a ejecutar y expone los sha de cada archivo asi el usuario determina si estan bien. (Es automatizable pero no se como manejar los strings que devuelve la funcion sha).
+
+![test](./doc_informe/test.png)
+
 ### Cambios descartados
 * En la funcion *alloc_matrix* se intento separar el malloc en 1 solo for, el mismo tambien empeoro los tiempos, por alguna razon cuando el acceso  la direccion de memoria se hace incrementando el valor de la izquierda, hay un acceso practicamente 2 veces mas rapido. Esto resulta ilustrador, y es de lo que habla en [COLUMN-MAJOR ACCESSING](http://icps.u-strasbg.fr/~bastoul/local_copies/lee.html), sinceramente la idea intuitiva hubiera sido al reves.
 * Cambiar el while agregado en *alloc_matrix* por un for desenrrollado mostro que en algunas iteraciones era mas rapido pero en otras este empeoraba

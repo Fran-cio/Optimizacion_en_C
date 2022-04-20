@@ -6,8 +6,18 @@ PATHbin=./bin/
 PATHrec=./src/
 PATHout=./out/
 PATHlog=./log/
+PATHtest=./test/
 
 lab3: $(PATHbin)lab3
+
+test: $(PATHtest)test_lab3 $(PATHtest)test_lab3_base
+
+$(PATHtest)test_lab3_base: $(PATHtest)lab3_base_test.c 
+	$(CC) $(OPT) -o $(PATHtest)test_lab3_base $(PATHtest)lab3_base_test.c
+
+
+$(PATHtest)test_lab3: $(PATHtest)lab3_test.c 
+	$(CC) $(CFLAGS) $(OPT) -o $(PATHtest)test_lab3 $(PATHtest)lab3_test.c
 
 $(PATHbin)lab3_base: $(PATHrec)lab3_base.c 
 	mkdir -p $(PATHbin) log
@@ -19,4 +29,4 @@ $(PATHbin)lab3: $(PATHrec)lab3.c
 	$(CC) $(CFLAGS) $(OPT) $(PROF) -o $(PATHbin)lab3 $(PATHrec)lab3.c
 
 clean:
-	rm -f -d $(PATHbin)* $(PATHbin) $(PATHlog)* $(PATHlog) $(PATHout)* $(PATHout) ./profiling/ejecucion.txt
+	rm -f -d $(PATHbin)* $(PATHbin) $(PATHlog)* $(PATHlog) $(PATHout)* $(PATHout) ./profiling/ejecucion.txt $(PATHtest)*.txt

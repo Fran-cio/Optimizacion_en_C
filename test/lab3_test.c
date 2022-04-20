@@ -6,7 +6,7 @@
 uint const XDIM = 10000;
 uint const YDIM = 10000;
 
-FILE *computo, *resultados;
+FILE *resultados;
 
 // We return the pointer
 double **alloc_matrix(void) /* Allocate the array */
@@ -30,13 +30,11 @@ double **alloc_matrix(void) /* Allocate the array */
 void fill(double** arr) 
 {
   uint i, j;
-  time_t t1; 
-  srand ( (unsigned) time (&t1));
+  srand ( 11 );
   for(i = 0 ; i < XDIM ; i++)
     for(j = 0 ; j < YDIM ; j++)
       arr[i][j] = (double)(rand() % 100);
 }
-
 
 void compute(double** arr, int kern[3][3])
 {
@@ -98,6 +96,7 @@ void compute(double** arr, int kern[3][3])
 
   while(j--)
     arr[XDIM-1][j]=accum;
+
 }
 
 
@@ -116,15 +115,13 @@ int main(void)
   double **arr;
   int kern[3][3] = {{0, -1, 0},{-1, 5, -1},{ 0, -1, 0}};
 
-  computo = fopen("./log/computo.txt", "w");
-  resultados = fopen("./log/resultados.txt", "w");
+  resultados = fopen("./test.txt", "w");
 
   arr = alloc_matrix();
   fill(arr);
   compute(arr, kern);
   print(arr);
 
-  fclose(computo);
   fclose(resultados);
 
   printf("Fin de la ejecucion\n");
